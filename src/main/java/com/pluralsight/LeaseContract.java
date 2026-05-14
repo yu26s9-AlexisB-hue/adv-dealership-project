@@ -12,7 +12,8 @@ public class LeaseContract extends Contract{
         this.leaseFee = leaseFee;
     }
 
-    public double getExpectedEndingValue() {
+    public double getExpectedEndingValue(double price) {
+        double expectedValuePercentage = price * .5;
         return expectedEndingValue;
     }
 
@@ -20,7 +21,8 @@ public class LeaseContract extends Contract{
         this.expectedEndingValue = expectedEndingValue;
     }
 
-    public double getLeaseFee() {
+    public double getLeaseFee(double price) {
+        double fee = price * .07;
         return leaseFee;
     }
 
@@ -35,8 +37,8 @@ public class LeaseContract extends Contract{
     }
 
     @Override
-    public double getMonthlyPayment(){
-        //todo: This is where the math in the payroll calculator comes in handy.
+    public double getMonthlyPayment(double vehiclePrice){
+        //todo: All leases are financed at 4.0% for 36 months
         return 0;
     }
 }
