@@ -3,42 +3,33 @@ package com.pluralsight;
 import java.util.List;
 
 public class LeaseContract extends Contract{
-    private double expectedEndingValue;
-    private double leaseFee;
 
-    public LeaseContract(String date, String customerName, String email, int vehicleSold, double expectedEndingValue, double leaseFee) {
+    public LeaseContract(String date, String customerName, String email, Vehicle vehicleSold) {
         super(date, customerName, email, vehicleSold);
-        this.expectedEndingValue = expectedEndingValue;
-        this.leaseFee = leaseFee;
     }
 
-    public double getExpectedEndingValue(double price) {
-        double expectedValuePercentage = price * .5;
-        return expectedEndingValue;
+    public double getExpectedEndingValue(){
+        return getVehicleSold().getPrice() * 0.50;
+    }
+    public double getLeaseFee(){
+        return getVehicleSold().getPrice() * 0.07;
     }
 
-    public void setExpectedEndingValue(double expectedEndingValue) {
-        this.expectedEndingValue = expectedEndingValue;
-    }
-
-    public double getLeaseFee(double price) {
-        double fee = price * .07;
-        return leaseFee;
-    }
-
-    public void setLeaseFee(double leaseFee) {
-        this.leaseFee = leaseFee;
-    }
 
     @Override
     public double getTotalPrice(){
         //todo: This is where I need to calculate every expense for the customer.
-        return 0;
+        return getVehicleSold().getPrice() + getLeaseFee();
     }
 
     @Override
-    public double getMonthlyPayment(double vehiclePrice){
+    public double getMonthlyPayment(){
         //todo: All leases are financed at 4.0% for 36 months
-        return 0;
+        double vehiclePrice = getTotalPrice();
+        double annualRate = 0.04; // 4.0%
+        double n = 36; // 36 months
+        double i = annualRate / 12;
+
+        return vehiclePrice * (i * Math.pow(1 + i, n)/(Math.pow(1 + i, n) - 1));
     }
 }
