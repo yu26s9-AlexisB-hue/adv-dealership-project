@@ -19,19 +19,19 @@ public class ContractFileManager {
                         salesContract.getCustomerName() +"|"+
                         salesContract.getEmail() + "|" +
                         salesContract.getVehicleSold().getVin() + "|" +
-                        salesContract.getVehicleSold().getYear() + "|"+
+                        salesContract.getVehicleSold().getYear() + "|"+ "\n"+
                         salesContract.getVehicleSold().getMake() + "|"+
                         salesContract.getVehicleSold().getModel() +"|"+
                         salesContract.getVehicleSold().getVehicleType() + "|"+
                         salesContract.getVehicleSold().getColor() + "|"+
                         salesContract.getVehicleSold().getOdometer()+"|"+
-                        salesContract.getVehicleSold().getPrice() + "|"+
+                        salesContract.getVehicleSold().getPrice() + "|"+ "\n"+
                         salesContract.getSalesTaxAmount() + "|"+
                         salesContract.getRecordingFee() +"|"+
                         salesContract.getProccessingFee() + "|"+
                         salesContract.getTotalPrice() + "|"+
                         salesContract.isFinanced()+"|"+
-                        salesContract.getMonthlyPayment();
+                        salesContract.getMonthlyPayment() + "\n";
 
 
                 writer.write(line);
@@ -44,16 +44,17 @@ public class ContractFileManager {
                         lease.getCustomerName() +"|"+
                         lease.getEmail() + "|" +
                         lease.getVehicleSold().getVin() + "|" +
-                        lease.getVehicleSold().getYear() + "|"+
+                        lease.getVehicleSold().getYear() + "|"+ "\n"+
                         lease.getVehicleSold().getMake() + "|"+
                         lease.getVehicleSold().getModel() +"|"+
                         lease.getVehicleSold().getVehicleType() + "|"+
                         lease.getVehicleSold().getColor() + "|"+
                         lease.getVehicleSold().getOdometer()+"|"+
-                        lease.getVehicleSold().getPrice() + "|"+
+                        lease.getVehicleSold().getPrice() + "|"+ "\n"+
                         lease.getExpectedEndingValue() +"|"+
+                        lease.getLeaseFee() +"|"+
                         lease.getTotalPrice() +"|"+
-                        lease.getMonthlyPayment();
+                        lease.getMonthlyPayment() + "\n";
 
 
                 writer.write(line);

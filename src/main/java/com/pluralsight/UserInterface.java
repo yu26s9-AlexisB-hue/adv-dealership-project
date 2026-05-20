@@ -69,6 +69,10 @@ public class UserInterface {
                     processRemoveVehicleRequest();
                     break;
 
+                case 10:
+                    processSellLease();
+                    break;
+
                 default:
                     System.out.println("Invalid Entry.");
                     break;
@@ -147,25 +151,49 @@ public class UserInterface {
         String name = Console.promptForString("Customers name: ");
         String email = Console.promptForString("Email: ");
         String date = Console.promptForString("Date: ");
-        String option = Console.promptForString("Will it be a Lease or Sale: ");
         int vin = Console.promptForInt("What is the Vin number of the Vehicle: ");
 
+        //Find vehicle
+        Vehicle vehicle = dealership.getVehicleByVin(vin);
 
-
-        if (option.equalsIgnoreCase("sale")){
-            boolean isFinanced = Console.promptForYesNo("Will be Financed (Yes/No): ");
-            SalesContract sale = new SalesContract(name,email,date,vin,isFinanced);
-            
-        }else if(option.equalsIgnoreCase("lease")){
-            LeaseContract lease = new LeaseContract(date,name,vin);
-
-            LocalDate currentYear = LocalDate.ofYearDay(date);
-
-            if(dealership.getVehiclesByYear(lease.getVhicleSold) < currentYear - 3){
-                System.out.println("Vehicle too old to lease. ");
-            }
-
+        if(vehicle == null){
+            System.out.println("Vehicle not found.");
+            return;
         }
+
+        String option = Console.promptForString("Will it be a Lease or Sale: ");
+
+        if(option.equalsIgnoreCase("sale")){
+            boolean isFinanced = Console.promptForYesNo("Will be Financed (Yes/No): ");
+
+            SalesContract sale = new SalesContract(date,name,email,vehicle,isFinanced);
+            ContractFileManager manager = new ContractFileManager();
+
+            //adding to the contract.csv
+            manager.saveContract(sale);
+
+            //removing the vehicle purchased
+            dealership.removeVehicle(vin);
+            DealershipFileManager.saveDealership(dealership);
+
+        }else if(option.equalsIgnoreCase("lease")){
+            int currentYear = LocalDate.now().getYear();
+
+            if(vehicle.getYear() < currentYear - 3){
+                System.out.println("Vehicle too old to lease.");
+                return;
+            }
+            LeaseContract lease = new LeaseContract(date,name,email,vehicle);
+            ContractFileManager manager = new ContractFileManager();
+
+            //adding information to the contract.csv
+            manager.saveContract(lease);
+
+            //removing the vehicle leased
+            dealership.removeVehicle(vin);
+            DealershipFileManager.saveDealership(dealership);
+        }
+
     }
 
 }
