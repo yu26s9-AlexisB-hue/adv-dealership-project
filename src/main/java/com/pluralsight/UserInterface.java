@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,6 +25,7 @@ public class UserInterface {
                     7 - View All Vehicles
                     8 - Add To Inventory
                     9 - Remove From Inventory
+                    10 - Sell/Lease A Vehicle
                     0 - Exit
                     """;
 
@@ -139,6 +142,30 @@ public class UserInterface {
         dealership.removeVehicle(vin);
 
         DealershipFileManager.saveDealership(dealership);
+    }
+    public void processSellLease(){
+        String name = Console.promptForString("Customers name: ");
+        String email = Console.promptForString("Email: ");
+        String date = Console.promptForString("Date: ");
+        String option = Console.promptForString("Will it be a Lease or Sale: ");
+        int vin = Console.promptForInt("What is the Vin number of the Vehicle: ");
+
+
+
+        if (option.equalsIgnoreCase("sale")){
+            boolean isFinanced = Console.promptForYesNo("Will be Financed (Yes/No): ");
+            SalesContract sale = new SalesContract(name,email,date,vin,isFinanced);
+            
+        }else if(option.equalsIgnoreCase("lease")){
+            LeaseContract lease = new LeaseContract(date,name,vin);
+
+            LocalDate currentYear = LocalDate.ofYearDay(date);
+
+            if(dealership.getVehiclesByYear(lease.getVhicleSold) < currentYear - 3){
+                System.out.println("Vehicle too old to lease. ");
+            }
+
+        }
     }
 
 }

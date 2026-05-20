@@ -23,6 +23,10 @@ public class SalesContract extends Contract {
         return getVehicleSold().getPrice() * 0.05;
     }
 
+    public double getRecordingFee(){
+        return 100;
+    }
+
 
     public boolean isFinanced() {
         return isFinanced;
@@ -34,25 +38,24 @@ public class SalesContract extends Contract {
 
     @Override
     public double getTotalPrice(){
-        //todo: This is where I need to calculate every expense for the customer.
-        double recordFee = 100;
-        return  getVehicleSold().getPrice() + getSalesTaxAmount() + recordFee + getProccessingFee();
+        //This is where I need to calculate every expense for the customer.
+        return  getVehicleSold().getPrice() + getSalesTaxAmount() + getRecordingFee() + getProccessingFee();
     }
 
     @Override
     public double getMonthlyPayment(){
-        //todo: This is where the math in the payroll calculator comes in handy.
+        //This is where the math in the payroll calculator comes in handy.
         if(isFinanced == true){
             double vehiclePrice = getTotalPrice();
             double annualRate;
             double n;
             if(vehiclePrice >= 10000){
-                //todo:All loans are at 4.25% for 48 months if the price is $10,000 or more.
+                //All loans are at 4.25% for 48 months if the price is $10,000 or more.
                 annualRate = 0.0425;//4.25%
                 n = 48; //48 months
 
             }else{
-                //todo:Otherwise they are at 5.25% for 24 month
+                //Otherwise they are at 5.25% for 24 month
                 annualRate = 0.0525; // 5.25% rate
                 n = 24; // 24 months
 
